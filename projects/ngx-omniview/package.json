@@ -1,6 +1,6 @@
 {
   "name": "ngx-omniview",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A universal content viewer for Angular that renders text, HTML, Markdown, LaTeX, MathJax, JSON, and more",
   "keywords": [
     "angular",
