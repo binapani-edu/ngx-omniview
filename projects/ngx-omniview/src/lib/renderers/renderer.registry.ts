@@ -1,5 +1,6 @@
 import { RendererRegistry } from './renderer.types';
 import { renderText } from './text.renderer';
+import { renderHtml } from './html.renderer';
 
 /**
  * Default placeholder renderer for formats not yet implemented
@@ -33,9 +34,9 @@ const renderPlaceholder = (format: string) => (data: string): string => {
  */
 export const rendererRegistry: RendererRegistry = {
   text: renderText,
+  html: renderHtml,
   
   // Placeholders for future renderers
-  html: renderPlaceholder('html'),
   markdown: renderPlaceholder('markdown'),
   latex: renderPlaceholder('latex'),
   mathjax: renderPlaceholder('mathjax'),

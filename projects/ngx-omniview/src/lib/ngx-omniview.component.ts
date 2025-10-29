@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { OmniviewFormat, rendererRegistry } from './renderers';
 
 /**
@@ -9,6 +10,8 @@ import { OmniviewFormat, rendererRegistry } from './renderers';
  * 
  * Each format has its own dedicated renderer implementation in the `renderers/` folder.
  * 
+ * Compatible with Angular 15-20.
+ * 
  * @example
  * ```html
  * <omniview [data]="content" [format]="'markdown'"></omniview>
@@ -16,7 +19,7 @@ import { OmniviewFormat, rendererRegistry } from './renderers';
  */
 @Component({
   selector: 'omniview',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './ngx-omniview.component.html',
   styleUrl: './ngx-omniview.component.css'
 })
@@ -31,6 +34,14 @@ export class NgxOmniviewComponent {
    * @default 'text'
    */
   @Input() format: OmniviewFormat = 'text';
+
+  /**
+   * Determine if the current format requires innerHTML binding
+   * (for formats that output HTML like 'html' and 'markdown')
+   */
+  get usesInnerHTML(): boolean {
+    return this.format === 'html';
+  }
 
   /**
    * Get the rendered content based on the format

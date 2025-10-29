@@ -8,4 +8,5 @@
 export * from './renderer.types';
 export * from './renderer.registry';
 export * from './text.renderer';
+export * from './html.renderer';
 

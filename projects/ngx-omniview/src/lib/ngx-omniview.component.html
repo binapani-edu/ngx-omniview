@@ -1,4 +1,11 @@
-<div class="omniview-content">
-  {{ renderedContent }}
-</div>
+<div
+  class="omniview-content"
+  *ngIf="usesInnerHTML; else textBlock"
+  [innerHTML]="renderedContent"
+></div>
 
+<ng-template #textBlock>
+  <!-- Preserve whitespace only for text-based formats (like: text, json, code) -->
+  <!-- and NOT for raw HTML -->
+  <div class="omniview-content preserve-whitespace">{{ renderedContent }}</div>
+</ng-template>

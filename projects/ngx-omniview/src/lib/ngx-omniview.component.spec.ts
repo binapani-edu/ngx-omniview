@@ -35,4 +35,20 @@ describe('NgxOmniviewComponent', () => {
     component.data = '';
     expect(component.renderedContent).toBe('');
   });
+
+  it('should render HTML content', () => {
+    component.data = '<h1>Title</h1><p>Paragraph</p>';
+    component.format = 'html';
+    expect(component.renderedContent).toBe('<h1>Title</h1><p>Paragraph</p>');
+  });
+
+  it('should use innerHTML for HTML format', () => {
+    component.format = 'html';
+    expect(component.usesInnerHTML).toBe(true);
+  });
+
+  it('should use text interpolation for text format', () => {
+    component.format = 'text';
+    expect(component.usesInnerHTML).toBe(false);
+  });
 });
