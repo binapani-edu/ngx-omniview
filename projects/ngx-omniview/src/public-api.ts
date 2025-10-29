@@ -3,4 +3,4 @@
  */
 
 export * from './lib/ngx-omniview.component';
-export type { OmniviewFormat } from './lib/ngx-omniview.component';
+export type { OmniviewFormat } from './lib/renderers';
