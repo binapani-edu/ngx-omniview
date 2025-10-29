@@ -6,5 +6,38 @@
   },
   "newProjectRoot": "projects",
   "projects": {
+    "ngx-omniview": {
+      "projectType": "library",
+      "root": "projects/ngx-omniview",
+      "sourceRoot": "projects/ngx-omniview/src",
+      "prefix": "omniview",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-omniview/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-omniview/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-omniview/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/ngx-omniview/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
   }
 }
