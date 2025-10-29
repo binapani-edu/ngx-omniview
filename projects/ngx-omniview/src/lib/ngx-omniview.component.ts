@@ -1,22 +1,13 @@
 import { Component, Input } from '@angular/core';
-
-/**
- * Supported content formats for rendering
- */
-export type OmniviewFormat = 
-  | 'text' 
-  | 'html' 
-  | 'markdown' 
-  | 'latex' 
-  | 'mathjax' 
-  | 'json' 
-  | 'code';
+import { OmniviewFormat, rendererRegistry } from './renderers';
 
 /**
  * OmniviewComponent - Universal content renderer
  * 
  * Renders raw string data in various formats including text, HTML, Markdown,
  * LaTeX, MathJax, JSON, and syntax-highlighted code.
+ * 
+ * Each format has its own dedicated renderer implementation in the `renderers/` folder.
  * 
  * @example
  * ```html
@@ -60,34 +51,22 @@ export class NgxOmniviewComponent {
 
   /**
    * Get the rendered content based on the format
+   * 
+   * Uses the renderer registry to delegate to the appropriate renderer function.
    */
   get renderedContent(): string {
     if (!this.data) {
       return '';
     }
 
-    switch (this.format) {
-      case 'text':
-        return this.renderText();
-      
-      // TODO: Add more renderers
-      case 'html':
-      case 'markdown':
-      case 'latex':
-      case 'mathjax':
-      case 'json':
-      case 'code':
-        return `[${this.format} rendering - coming soon]\n\n${this.data}`;
-      
-      default:
-        return this.data;
+    // Get the appropriate renderer from the registry
+    const renderer = rendererRegistry[this.format];
+    
+    if (!renderer) {
+      // Fallback if format is not recognized
+      return this.data;
     }
-  }
 
-  /**
-   * Render plain text (simplest renderer)
-   */
-  private renderText(): string {
-    return this.data;
+    return renderer(this.data);
   }
 }
