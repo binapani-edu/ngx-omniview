@@ -18,7 +18,8 @@ Line breaks are preserved.
 
 This library supports multiple formats!`;
 
-  htmlContent = `<h1>HTML Content</h1>
+  htmlContent = `
+<h1>HTML Content</h1>
 <p>This is <strong>bold</strong> and <em>italic</em> text.</p>
 <ul>
   <li>List item 1</li>
