@@ -8,10 +8,11 @@ import { NgxOmniviewComponent } from 'ngx-omniview';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'ngx-omniview Demo';
+  title = 'ngx-omniview demo';
   
   // Sample content for testing
-  textContent = `Hello World!
+  textContent = `
+Hello World!
 This is a simple text content.
 Line breaks are preserved.
 
