@@ -1,9 +1,30 @@
 {
   "name": "ngx-omniview",
   "version": "0.0.1",
+  "description": "A universal content viewer for Angular that renders text, HTML, Markdown, LaTeX, MathJax, JSON, and more",
+  "keywords": [
+    "angular",
+    "viewer",
+    "renderer",
+    "markdown",
+    "latex",
+    "mathjax",
+    "html",
+    "json",
+    "text",
+    "render",
+    "rendering",
+    "content-viewer"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/binapani-edu/ngx-omniview"
+  },
   "peerDependencies": {
-    "@angular/common": "^19.2.0",
-    "@angular/core": "^19.2.0"
+    "@angular/common": ">=15.0.0 <21.0.0",
+    "@angular/core": ">=15.0.0 <21.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
