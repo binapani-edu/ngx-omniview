@@ -20,4 +20,19 @@ describe('NgxOmniviewComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should have default format as text', () => {
+    expect(component.format).toBe('text');
+  });
+
+  it('should render text content', () => {
+    component.data = 'Hello World';
+    component.format = 'text';
+    expect(component.renderedContent).toBe('Hello World');
+  });
+
+  it('should return empty string for empty data', () => {
+    component.data = '';
+    expect(component.renderedContent).toBe('');
+  });
 });
