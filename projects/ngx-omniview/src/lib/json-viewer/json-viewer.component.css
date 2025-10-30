@@ -1,0 +1,61 @@
+.json-tree {
+    list-style: none;
+    padding-left: 1rem;
+    margin: 0;
+    font-family: monospace;
+    line-height: 1.5;
+}
+
+li {
+    display: flex;
+    align-items: flex-start;
+    margin: 0.1rem 0;
+}
+
+.toggle-btn {
+    margin-right: 0.25rem;
+    margin-top: 0.45rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    line-height: 1;
+    transform: rotate(90deg);
+    transition: transform 0.15s ease;
+    color: #555;
+    padding: 0;
+    user-select: none;
+}
+
+.toggle-btn.collapsed {
+    transform: rotate(0deg);
+}
+
+.toggle-placeholder {
+    display: inline-block;
+    width: 1.1rem;
+}
+
+.json-key {
+    font-weight: 600;
+    margin-right: 0.25rem;
+    color: #1a1a1a;
+}
+
+/* Syntax coloring */
+.json-value-string {
+    color: #0b5394;
+}
+
+.json-value-number {
+    color: #38761d;
+}
+
+.json-value-boolean {
+    color: #9900ff;
+}
+
+.json-value-null {
+    color: #999;
+    font-style: italic;
+}

@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { OmniviewFormat, rendererRegistry } from './renderers';
 import { CommonModule } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
 import { MarkdownModule } from 'ngx-markdown';
 import { renderHtml } from './renderers/html.renderer';
 import { renderMarkdown } from './renderers/markdown.renderer';
+import { JsonViewerComponent } from './json-viewer/json-viewer.component';
 
 /**
  * OmniviewComponent - Universal content renderer
@@ -23,7 +23,7 @@ import { renderMarkdown } from './renderers/markdown.renderer';
  */
 @Component({
   selector: 'omniview',
-  imports: [CommonModule, MarkdownModule],
+  imports: [CommonModule, MarkdownModule, JsonViewerComponent],
   templateUrl: './ngx-omniview.component.html',
   styleUrl: './ngx-omniview.component.css'
 })
@@ -39,7 +39,6 @@ export class NgxOmniviewComponent {
    */
   @Input() format: OmniviewFormat = 'text';
 
-  constructor(private sanitizer: DomSanitizer) { }
 
   /**
    * Determine if the current format requires innerHTML binding
@@ -55,26 +54,20 @@ export class NgxOmniviewComponent {
    * Uses the renderer registry to delegate to the appropriate renderer function.
    */
   get renderedContent(): string {
-    if (!this.data) {
-      return '';
-    }
+    if (!this.data) return '';
 
-    // Get the appropriate renderer from the registry
-    if (this.format === 'html') {
-      return renderHtml(this.data) as string;
-    }
+    if (this.format === 'html') return renderHtml(this.data);
+    if (this.format === 'markdown') return renderMarkdown(this.data);
 
-    if (this.format === 'markdown') {
-      return renderMarkdown(this.data);
+    if (this.format === 'json') {
+      try {
+        return JSON.parse(this.data);
+      } catch {
+        return 'Invalid JSON';
+      }
     }
 
     const renderer = rendererRegistry[this.format];
-    
-    if (!renderer) {
-      // Fallback if format is not recognized
-      return this.data;
-    }
-
-    return renderer(this.data);
+    return renderer ? renderer(this.data) : this.data;
   }
 }

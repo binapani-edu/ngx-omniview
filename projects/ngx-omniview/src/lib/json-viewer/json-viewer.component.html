@@ -1,0 +1,29 @@
+<ul class="json-tree">
+    <ng-container *ngFor="let key of keys">
+        <li>
+            <!-- Chevron button -->
+            <button *ngIf="isObject(data[key])" class="toggle-btn" [class.collapsed]="collapsed[key]"
+                (click)="toggle(key)" aria-label="Toggle">
+                ▶
+            </button>
+
+            <!-- Placeholder spacing for non-object values -->
+            <span *ngIf="!isObject(data[key])" class="toggle-placeholder"></span>
+
+            <!-- JSON Key -->
+            <span class="json-key">{{ key }}:</span>
+
+            <!-- Nested object -->
+            <ng-container *ngIf="isObject(data[key]); else valueTemplate">
+                <json-viewer *ngIf="!collapsed[key]" [data]="data[key]"></json-viewer>
+            </ng-container>
+
+            <!-- Primitive value -->
+            <ng-template #valueTemplate>
+                <span [ngClass]="getValueClass(data[key])">
+                    {{ formatValue(data[key]) }}
+                </span>
+            </ng-template>
+        </li>
+    </ng-container>
+</ul>
