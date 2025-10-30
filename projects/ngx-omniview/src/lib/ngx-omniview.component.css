@@ -10,7 +10,10 @@
   word-wrap: break-word;
 }
 
-/* Preserve whitespace only for text-based formats */
-.omniview-content.preserve-whitespace {
+/* Preserve whitespace for text-based formats */
+.omniview-content pre.preserve-whitespace {
   white-space: pre-wrap;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
 }

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MarkdownModule } from 'ngx-markdown';
 import { OmniviewFormat, rendererRegistry } from './renderers';
+import { JsonViewerComponent } from './json-viewer/json-viewer.component';
 
 /**
  * OmniviewComponent - Universal content renderer
@@ -19,7 +21,7 @@ import { OmniviewFormat, rendererRegistry } from './renderers';
  */
 @Component({
   selector: 'omniview',
-  imports: [CommonModule],
+  imports: [CommonModule, MarkdownModule, JsonViewerComponent],
   templateUrl: './ngx-omniview.component.html',
   styleUrl: './ngx-omniview.component.css'
 })
@@ -36,31 +38,25 @@ export class NgxOmniviewComponent {
   @Input() format: OmniviewFormat = 'text';
 
   /**
-   * Determine if the current format requires innerHTML binding
-   * (for formats that output HTML like 'html' and 'markdown')
-   */
-  get usesInnerHTML(): boolean {
-    return this.format === 'html';
-  }
-
-  /**
    * Get the rendered content based on the format
    * 
    * Uses the renderer registry to delegate to the appropriate renderer function.
+   * For special formats (json, markdown), additional processing is done in the template.
    */
-  get renderedContent(): string {
-    if (!this.data) {
-      return '';
+  get renderedContent(): string | any {
+    if (!this.data) return '';
+
+    // For JSON, parse and return object (used by json-viewer component)
+    if (this.format === 'json') {
+      try {
+        return JSON.parse(this.data);
+      } catch {
+        return { error: 'Invalid JSON', raw: this.data };
+      }
     }
 
-    // Get the appropriate renderer from the registry
+    // For all other formats, use the renderer registry
     const renderer = rendererRegistry[this.format];
-    
-    if (!renderer) {
-      // Fallback if format is not recognized
-      return this.data;
-    }
-
-    return renderer(this.data);
+    return renderer ? renderer(this.data) : this.data;
   }
 }

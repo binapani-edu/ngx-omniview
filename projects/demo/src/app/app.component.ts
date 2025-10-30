@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NgxOmniviewComponent } from 'ngx-omniview';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-root',
-  imports: [NgxOmniviewComponent],
+  imports: [NgxOmniviewComponent, MarkdownModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -28,7 +29,8 @@ This library supports multiple formats!`;
 </ul>
 <p><a href="https://angular.dev" target="_blank">Link to Angular</a></p>`;
   
-  markdownContent = `# Markdown Example
+  markdownContent = `
+# Markdown Example
 ## Features
 - Item 1
 - Item 2
@@ -37,8 +39,34 @@ This library supports multiple formats!`;
 **Bold text** and *italic text*`;
 
   jsonContent = JSON.stringify({
-    name: 'ngx-omniview',
-    version: '0.0.1',
-    features: ['text', 'html', 'markdown', 'latex', 'mathjax']
+    "text": "hello world",
+    "number": 1,
+    "fraction": 1.5,
+    "boolean": true,
+    "nullValue": null,
+    "object": {
+      "name": "object",
+      "value": 42
+    },
+    "array": [1, 2, 3, "four", { "inside": "object in array" }],
+    "nestedObject": {
+      "name": "nested object",
+      "level1": {
+        "layer1": 1,
+        "deeper": {
+          "layer2": 2,
+          "deep": {
+            "layer3": 3
+          }
+        }
+      },
+      "level2": [0],
+      "level3": {}
+    },
+    "listOfObjects": [
+      { "id": 1, "label": "first" },
+      { "id": 2, "label": "second", "extra": [10, 20, 30] },
+      { "id": 3, "label": "third", "meta": { "active": true } }
+    ]
   }, null, 2);
 }

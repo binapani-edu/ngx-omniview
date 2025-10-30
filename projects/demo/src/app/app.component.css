@@ -42,6 +42,28 @@ main {
   color: #444;
 }
 
+.viewer-row {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+}
+
+.viewer-row .viewer-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.viewer-row pre.viewer-container {
+  display: flex;
+}
+
+.viewer-row pre {
+  flex: 1;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .viewer-container {
   background: white;
   border: 1px solid #ddd;
@@ -50,6 +72,8 @@ main {
   min-height: 100px;
   max-height: 300px;
   overflow: auto;
+  font-size: 1.2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 footer {

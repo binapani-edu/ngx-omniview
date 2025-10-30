@@ -42,13 +42,23 @@ describe('NgxOmniviewComponent', () => {
     expect(component.renderedContent).toBe('<h1>Title</h1><p>Paragraph</p>');
   });
 
-  it('should use innerHTML for HTML format', () => {
-    component.format = 'html';
-    expect(component.usesInnerHTML).toBe(true);
+  it('should parse JSON content', () => {
+    component.data = '{"name":"test","value":123}';
+    component.format = 'json';
+    const result = component.renderedContent;
+    expect(result).toEqual({ name: 'test', value: 123 });
   });
 
-  it('should use text interpolation for text format', () => {
-    component.format = 'text';
-    expect(component.usesInnerHTML).toBe(false);
+  it('should handle invalid JSON', () => {
+    component.data = '{invalid json}';
+    component.format = 'json';
+    const result = component.renderedContent;
+    expect(result.error).toBe('Invalid JSON');
+  });
+
+  it('should render markdown content', () => {
+    component.data = '# Hello World';
+    component.format = 'markdown';
+    expect(component.renderedContent).toBe('# Hello World');
   });
 });
