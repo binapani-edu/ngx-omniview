@@ -1,20 +1,26 @@
-<div class="omniview-content">
-  <!-- HTML -->
-  <div *ngIf="format === 'html'; else markdownOrOther" [innerHTML]="renderedContent"></div>
+<div class="omniview-content" [ngSwitch]="format">
 
-  <!-- Markdown / Other formats -->
-  <ng-template #markdownOrOther>
-    <markdown *ngIf="format === 'markdown'; else otherFormats" katex [data]="renderedContent"></markdown>
+  <!-- HTML format: render as HTML -->
+  <div *ngSwitchCase="'html'"
+    [innerHTML]="renderedContent"
+  ></div>
 
-    <ng-template #otherFormats>
-      <json-viewer *ngIf="format === 'json'" [data]="renderedContent"></json-viewer>
-      <pre *ngIf="format !== 'json'">{{ renderedContent }}</pre>
-    </ng-template>
-  </ng-template>
+  <!-- Markdown format: use ngx-markdown for rendering -->
+  <markdown *ngSwitchCase="'markdown'"
+    katex
+    [data]="renderedContent"
+  ></markdown>
+
+  <!-- JSON format: use interactive JSON viewer -->
+  <json-viewer *ngSwitchCase="'json'"
+    [data]="renderedContent"
+  ></json-viewer>
+
+  <!-- All other formats: text, code, latex, mathjax -->
+  <pre *ngSwitchDefault
+    class="preserve-whitespace"
+  >
+    {{ renderedContent }}
+  </pre>
+
 </div>
-
-<ng-template #textBlock>
-  <!-- Preserve whitespace only for text-based formats (like: text, json, code) -->
-  <!-- and NOT for raw HTML -->
-  <div class="omniview-content preserve-whitespace">{{ renderedContent }}</div>
-</ng-template>
