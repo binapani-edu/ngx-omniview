@@ -20,7 +20,14 @@ Line breaks are preserved.
 This library supports multiple formats!`;
 
   htmlContent = `
-<h1>HTML Content</h1><p>This is <strong>bold</strong> text.</p>`;
+<h1>HTML Content</h1>
+<p>This is <strong>bold</strong> and <em>italic</em> text.</p>
+<ul>
+  <li>List item 1</li>
+  <li>List item 2</li>
+  <li>List item 3</li>
+</ul>
+<p><a href="https://angular.dev" target="_blank">Link to Angular</a></p>`;
   
   markdownContent = `
 # Markdown Example
@@ -34,6 +41,19 @@ This library supports multiple formats!`;
   jsonContent = JSON.stringify({
     name: 'ngx-omniview',
     version: '0.0.1',
-    features: ['text', 'html', 'markdown', 'latex', 'mathjax']
+    features: [
+      {
+        name: 'feature 1',
+        description: 'description 1'
+      },
+      {
+        name: 'feature 2',
+        description: 'description 2'
+      },
+      {
+        name: 'feature 3',
+        description: 'description 3'
+      }
+    ]
   }, null, 2);
 }
