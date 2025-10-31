@@ -202,27 +202,31 @@ footer a:hover {
   flex: 1;
   padding: 1rem;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-family: 'Courier New', Courier, 'Consolas', 'Monaco', monospace;
+  font-weight: 600;
   white-space: pre;
   overflow-x: auto;
   border: none;
   background: transparent;
   color: #333;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* HTML Syntax Highlighting */
 .html-tag {
-  color: #22863a;
+  color: #005cc5;
+  font-weight: 600;
 }
 
 .html-attr {
-  color: #6f42c1;
+  color: #d73a49;
+  font-weight: 600;
 }
 
 .html-string {
   color: #032f62;
+  font-weight: 600;
 }
 
 .copy-button {
@@ -249,9 +253,9 @@ footer a:hover {
 }
 
 .code-hint {
-  margin: 0.5rem 0 0;
-  font-size: 0.7rem;
-  color: #999;
+  margin: -0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #888;
   font-style: normal;
 }
 
