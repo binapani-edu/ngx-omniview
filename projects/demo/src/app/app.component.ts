@@ -28,39 +28,45 @@ export class AppComponent {
   }
   
   // Sample content for testing
-  textContent = `
-Hello World!
-This is a simple text content.
-Line breaks are preserved.
+  textContent = [
+    'Hello World!',
+    'This is a simple text content.',
+    'Line breaks are preserved.',
+    '',
+    'This library supports multiple formats!'
+  ].join('\n');
 
-This library supports multiple formats!`;
-
-  htmlContent = `
-<h1>HTML Content</h1>
-<p>This is <strong>bold</strong> and <em>italic</em> text.</p>
-<ul>
-  <li>List item 1</li>
-  <li>List item 2</li>
-  <li>List item 3</li>
-</ul>
-<p><a href="https://angular.dev" target="_blank">Link to Angular</a></p>`;
+  htmlContent = [
+    '<h1>HTML Content</h1>',
+    '<p>This is <strong>bold</strong> and <em>italic</em> text.</p>',
+    '<ul>',
+    '  <li>List item 1</li>',
+    '  <li>List item 2</li>',
+    '  <li>List item 3</li>',
+    '</ul>',
+    '<p><a href="https://angular.dev" target="_blank">Link to Angular</a></p>',
+    '',
+    'This library supports HTML format!'
+  ].join('\n');
   
-  markdownContent = `
-# Markdown Example
-## Features
-- Item 1
-- Item 2
-- Item 3
-
-**Bold text** and *italic text*
-
-Inline math $E = mc^2$, in between a line of text.
-
-and block math:
-$$
-x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}
-$$
-`;
+  markdownContent = [
+    '# Markdown Example',
+    '## Features',
+    '- Item 1',
+    '- Item 2',
+    '- Item 3',
+    '',
+    '**Bold text** and *italic text*',
+    '',
+    'Inline Math $E = mc^2$, in between a line of text.',
+    '',
+    'and Block Math:',
+    '$$',
+    'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}',
+    '$$',
+    '',
+    'This library supports Markdown format!'
+  ].join('\n');
 
   jsonContent = JSON.stringify({
     "text": "hello world",
@@ -94,7 +100,8 @@ $$
     ]
   }, null, 2);
 
-  mathjaxContent = `
-$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$`;
+  mathjaxContent = [
+    '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'
+  ].join('\n');
 
 }
