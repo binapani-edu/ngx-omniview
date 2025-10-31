@@ -9,4 +9,7 @@ export * from './renderer.types';
 export * from './renderer.registry';
 export * from './text.renderer';
 export * from './html.renderer';
+export * from './markdown.renderer';
+export * from './json.renderer';
+export * from './mathjax.renderer';
 
