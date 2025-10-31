@@ -52,6 +52,18 @@
         </div>
       </div>
     </section>
+
+    <section class="demo-section">
+      <h2>MathJax Format</h2>
+      <div class="viewer-row">
+        <pre class="viewer-container">
+          {{ mathjaxContent }}
+        </pre>
+        <div class="viewer-container">
+          <omniview [data]="mathjaxContent" [format]="'mathjax'"></omniview>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer>

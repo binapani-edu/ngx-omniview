@@ -69,4 +69,8 @@ This library supports multiple formats!`;
       { "id": 3, "label": "third", "meta": { "active": true } }
     ]
   }, null, 2);
+
+  mathjaxContent = `
+$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$`;
+
 }

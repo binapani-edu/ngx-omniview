@@ -1,6 +1,7 @@
 import { renderHtml } from './html.renderer';
 import { renderJson } from './json.renderer';
 import { renderMarkdown } from './markdown.renderer';
+import { renderMathjax } from './mathjax.renderer';
 import { RendererRegistry } from './renderer.types';
 import { renderText } from './text.renderer';
 
@@ -39,10 +40,10 @@ export const rendererRegistry: RendererRegistry = {
   html: renderHtml,
   markdown: renderMarkdown,
   json: renderJson,
+  mathjax: renderMathjax,
   
   // Placeholders for future renderers
   latex: renderPlaceholder('latex'),
-  mathjax: renderPlaceholder('mathjax'),
   code: renderPlaceholder('code'),
 };
 

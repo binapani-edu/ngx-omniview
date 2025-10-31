@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { OmniviewFormat, rendererRegistry } from './renderers';
 import { JsonViewerComponent } from './json-viewer/json-viewer.component';
+import { MathjaxModule } from 'mathjax-angular';
 
 /**
  * OmniviewComponent - Universal content renderer
@@ -21,7 +22,7 @@ import { JsonViewerComponent } from './json-viewer/json-viewer.component';
  */
 @Component({
   selector: 'omniview',
-  imports: [CommonModule, MarkdownModule, JsonViewerComponent],
+  imports: [CommonModule, MarkdownModule, JsonViewerComponent, MathjaxModule],
   templateUrl: './ngx-omniview.component.html',
   styleUrl: './ngx-omniview.component.css'
 })
