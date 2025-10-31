@@ -11,11 +11,10 @@
       </button>
       <span *ngIf="!isObject(getValueByKey(key))" class="jv-spacer"></span>
 
-      <ng-container *ngIf="key !== '__root__'; else noLabel">
+      <ng-container *ngIf="key !== '__root__'">
         <span [class]="isArray ? 'jv-index' : 'jv-key'">{{ isArray ? i : key }}</span>
         <span class="jv-colon">:</span>
       </ng-container>
-      <ng-template #noLabel let-condition="ngIf"></ng-template>
 
       <!-- Object/array collapsed preview -->
       <ng-container *ngIf="isObject(getValueByKey(key)) && collapsed[key]">
