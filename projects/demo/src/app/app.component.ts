@@ -15,10 +15,15 @@ export class AppComponent {
   // For "Try Yourself!" section
   selectedFormat: OmniviewFormat = 'text';
   userContent = '';
+  copyButtonText = 'Copy';
   
   copyToClipboard() {
     const codeText = `<omniview [data]="content" [format]="'${this.selectedFormat}'"></omniview>`;
     navigator.clipboard.writeText(codeText).then(() => {
+      this.copyButtonText = 'Copied!';
+      setTimeout(() => {
+        this.copyButtonText = 'Copy';
+      }, 1500);
     });
   }
   

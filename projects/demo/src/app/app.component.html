@@ -112,7 +112,7 @@
         </div>
         <div class="try-yourself-content">
           <div class="input-container try-full-width">
-            <label class="input-label">YOUR RAW STRING</label>
+            <label class="input-label">Your raw string</label>
             <textarea 
               class="try-input" 
               [(ngModel)]="userContent" 
@@ -120,19 +120,19 @@
             ></textarea>
           </div>
           <div class="output-container try-full-width">
-            <label class="output-label">PREVIEW</label>
+            <label class="output-label">Preview</label>
             <div class="viewer-container try-preview">
               <omniview [data]="userContent" [format]="selectedFormat"></omniview>
             </div>
           </div>
         </div>
         <div class="code-snippet-container">
-          <label class="code-label">CODE:</label>
+          <label class="code-label">Code</label>
           <div class="code-snippet-wrapper">
-            <pre class="code-snippet" #codeSnippet>&lt;omniview [data]="content" [format]="'{{ selectedFormat }}'"&gt;&lt;/omniview&gt;</pre>
-            <button class="copy-button" (click)="copyToClipboard()" type="button">Copy</button>
+            <pre class="code-snippet" #codeSnippet><span class="html-tag">&lt;omniview</span> <span class="html-attr">[data]</span>=<span class="html-string">"content"</span> <span class="html-attr">[format]</span>=<span class="html-string">"'{{ selectedFormat }}'"</span><span class="html-tag">&gt;&lt;/omniview&gt;</span></pre>
+            <button class="copy-button" (click)="copyToClipboard()" type="button">{{ copyButtonText }}</button>
           </div>
-          <p class="code-hint">Use "content" as your component property that holds the string data</p>
+          <p class="code-hint">* Use "content" as your component property that holds the string data</p>
         </div>
       </div>
     </section>
