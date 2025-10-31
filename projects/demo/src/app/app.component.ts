@@ -36,7 +36,15 @@ This library supports multiple formats!`;
 - Item 2
 - Item 3
 
-**Bold text** and *italic text*`;
+**Bold text** and *italic text*
+
+Inline math $E = mc^2$, in between a line of text.
+
+and block math:
+$$
+x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}
+$$
+`;
 
   jsonContent = JSON.stringify({
     "text": "hello world",

@@ -103,7 +103,7 @@ export const renderText: RendererFunction = (data: string): string => {
 |--------|--------|---------------|---------------|
 | text | ✅ Implemented | `text.renderer.ts` | None |
 | html | 🔜 Planned | - | Angular DomSanitizer |
-| markdown | 🔜 Planned | - | `marked` |
+| markdown | 🔜 Planned | - | `ngx-markdown` |
 | latex | 🔜 Planned | - | `mathjax` |
 | mathjax | 🔜 Planned | - | `mathjax` |
 | json | 🔜 Planned | - | None |

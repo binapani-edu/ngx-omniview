@@ -1,6 +1,6 @@
 {
   "name": "ngx-omniview",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -17,7 +17,7 @@
     "@angular/platform-browser": "^20.3.9",
     "@angular/platform-browser-dynamic": "^20.3.9",
     "@angular/router": "^20.3.9",
-    "marked": "^16.4.1",
+    "katex": "^0.16.25",
     "mathjax-angular": "^3.0.0",
     "ngx-markdown": "^20.1.0",
     "rxjs": "~7.8.2",
