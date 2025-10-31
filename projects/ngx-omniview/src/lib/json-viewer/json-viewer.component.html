@@ -15,7 +15,7 @@
         <span [class]="isArray ? 'jv-index' : 'jv-key'">{{ isArray ? i : key }}</span>
         <span class="jv-colon">:</span>
       </ng-container>
-      <ng-template #noLabel></ng-template>
+      <ng-template #noLabel let-condition="ngIf"></ng-template>
 
       <!-- Object/array collapsed preview -->
       <ng-container *ngIf="isObject(getValueByKey(key)) && collapsed[key]">
