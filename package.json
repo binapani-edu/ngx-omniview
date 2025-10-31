@@ -37,5 +37,11 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ng-packagr": "^20.3.0",
     "typescript": "~5.9.3"
+  },
+  "overrides": {
+    "mathjax-angular": {
+      "@angular/common": "^20.3.9",
+      "@angular/core": "^20.3.9"
+    }
   }
 }
