@@ -104,4 +104,8 @@ export class AppComponent {
     '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'
   ].join('\n');
 
+  latexContent = `  
+x^2 + y^2 = z^2
+`;
+
 }

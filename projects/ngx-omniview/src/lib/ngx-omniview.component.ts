@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { OmniviewFormat, rendererRegistry } from './renderers';
 import { JsonViewerComponent } from './json-viewer/json-viewer.component';
 import { MathjaxModule } from 'mathjax-angular';
+import 'mathlive';
 
 /**
  * OmniviewComponent - Universal content renderer
@@ -24,7 +25,8 @@ import { MathjaxModule } from 'mathjax-angular';
   selector: 'omniview',
   imports: [CommonModule, MarkdownModule, JsonViewerComponent, MathjaxModule],
   templateUrl: './ngx-omniview.component.html',
-  styleUrl: './ngx-omniview.component.css'
+  styleUrl: './ngx-omniview.component.css',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class NgxOmniviewComponent {
   /**
