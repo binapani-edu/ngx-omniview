@@ -18,14 +18,3 @@
   font-size: inherit;
 }
 
-/* Remove MathLive border, padding, and background */
-math-field {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  outline: none !important;
-  padding: 0 !important;
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 1.1em;
-}

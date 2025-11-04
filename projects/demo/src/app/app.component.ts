@@ -1,46 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { NgxOmniviewComponent, OmniviewFormat } from 'ngx-omniview';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgxOmniviewComponent, OmniviewFormat } from '../../../ngx-omniview/src/public-api';
 import { MarkdownModule } from 'ngx-markdown';
 import { FormsModule } from '@angular/forms';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
   imports: [NgxOmniviewComponent, MarkdownModule, FormsModule],
   templateUrl: './app.component.html',
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'ngx-omniview demo';
   
   // For "Try Yourself!" section
   selectedFormat: OmniviewFormat = 'text';
   userContent = '';
   copyButtonText = 'Copy';
-  
-  html: SafeHtml = '';
-
-  constructor(private sanitizer: DomSanitizer) {}
-
-  async ngOnInit() {
-    const { default: latexjs } = await import('latex.js');
-
-    const generator = new latexjs.HtmlGenerator({ hyphenate: false });
-
-    const latex = `
-      \\documentclass{article}
-      \\begin{document}
-      Hello, this is a theorem.
-      \\[
-        \\int_M d\\omega = \\int_{\\partial M} \\omega
-      \\]
-      \\end{document}
-    `;
-    
-    const doc = latexjs.parse(latex, { generator }).htmlDocument();
-    // Bypass Angular sanitization so HTML isn't stripped
-    this.html = this.sanitizer.bypassSecurityTrustHtml(doc.body.innerHTML);
-  }
 
   
   copyToClipboard() {
@@ -130,8 +106,9 @@ export class AppComponent implements OnInit {
     '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'
   ].join('\n');
 
-  latexContent = `  
-x^2 + y^2 = z^2
-`;
+  latexContent = `\\documentclass{article}
+\\begin{document}
+$x^2 + y^2 = z^2$
+\\end{document}`;
 
 }

@@ -21,10 +21,11 @@
     [mathjax]="renderedContent"
   ></div>
 
-  <!-- MathLive format -->
-  <math-field *ngSwitchCase="'latex'" readonly>
-    {{ renderedContent }}
-  </math-field>
+  <!-- LaTex format -->
+  <latex-js *ngSwitchCase="'latex'"
+    baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/" 
+    [textContent]="renderedContent">
+  </latex-js>
 
   <!-- All other formats: text, code, latex -->
   <pre *ngSwitchDefault class="preserve-whitespace">{{ renderedContent }}</pre>
