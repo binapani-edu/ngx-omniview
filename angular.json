@@ -70,7 +70,10 @@
             "scripts": [
               "node_modules/katex/dist/katex.min.js",
               "node_modules/katex/dist/contrib/auto-render.min.js"
-            ]
+            ],
+            "loader": {
+              ".keep": "empty"
+            }
           },
           "configurations": {
             "production": {
