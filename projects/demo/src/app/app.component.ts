@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgxOmniviewComponent, OmniviewFormat } from 'ngx-omniview';
 import { MarkdownModule } from 'ngx-markdown';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -9,13 +10,38 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ngx-omniview demo';
   
   // For "Try Yourself!" section
   selectedFormat: OmniviewFormat = 'text';
   userContent = '';
   copyButtonText = 'Copy';
+  
+  html: SafeHtml = '';
+
+  constructor(private sanitizer: DomSanitizer) {}
+
+  async ngOnInit() {
+    const { default: latexjs } = await import('latex.js');
+
+    const generator = new latexjs.HtmlGenerator({ hyphenate: false });
+
+    const latex = `
+      \\documentclass{article}
+      \\begin{document}
+      Hello, this is a theorem.
+      \\[
+        \\int_M d\\omega = \\int_{\\partial M} \\omega
+      \\]
+      \\end{document}
+    `;
+    
+    const doc = latexjs.parse(latex, { generator }).htmlDocument();
+    // Bypass Angular sanitization so HTML isn't stripped
+    this.html = this.sanitizer.bypassSecurityTrustHtml(doc.body.innerHTML);
+  }
+
   
   copyToClipboard() {
     const codeText = `<omniview [data]="content" [format]="'${this.selectedFormat}'"></omniview>`;

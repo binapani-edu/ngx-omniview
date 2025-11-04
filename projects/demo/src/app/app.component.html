@@ -95,7 +95,8 @@
         <div class="output-container">
           <label class="output-label">Output view</label>
           <div class="viewer-container">
-            <omniview [data]="latexContent" [format]="'latex'"></omniview>
+            <!-- <omniview [data]="latexContent" [format]="'latex'"></omniview> -->
+            <div [innerHTML]="html"></div>
           </div>
         </div>
       </div>
