@@ -17,7 +17,7 @@ function preprocessLatex(latex: string): string {
   let processed = latex;
 
   // ========================================
-  // INLINE MATH CONVERSIONS → $...$
+  // convert inline math to $...$
   // ========================================
   
   // convert \(...\) to $...$
@@ -33,7 +33,7 @@ function preprocessLatex(latex: string): string {
   );
 
   // ========================================
-  // DISPLAY MATH conversions → $$...$$
+  // convert DISPLAY MATH to $$...$$
   // ========================================
 
   // convert \[...\] to $$...$$
@@ -42,79 +42,42 @@ function preprocessLatex(latex: string): string {
     (match, content) => `$$${content.trim()}$$`
   );
 
-  // list of display math environments to convert to $$...$$
-  const displayMathEnvironments = [
-    // Standard LaTeX
-    'displaymath',
-    
-    // numbered equations (AMSmath)
+  // convert \begin{displaymath}...\end{displaymath} to $$...$$
+  processed = processed.replace(
+    /\\begin\{displaymath\}([\s\S]*?)\\end\{displaymath\}/g,
+    (match, content) => `$$${content.trim()}$$`
+  );
+
+  // convert AMS and standard display math environments to $$...$$
+  const displayMathEnvs = [
     'equation', 'equation*',
     'align', 'align*',
     'alignat', 'alignat*',
     'gather', 'gather*',
     'multline', 'multline*',
     'flalign', 'flalign*',
-    
-    // older LaTeX (obsolete but still used)
     'eqnarray', 'eqnarray*',
-    
-    // IEEE (if encountered)
     'IEEEeqnarray', 'IEEEeqnarray*'
   ];
 
-  // convert each display math environment to $$...$$
-  displayMathEnvironments.forEach(env => {
-    // match \begin{env}...\end{env} with content in between (including newlines)
+  displayMathEnvs.forEach(env => {
     const regex = new RegExp(
       `\\\\begin\\{${env.replace(/\*/g, '\\*')}\\}([\\s\\S]*?)\\\\end\\{${env.replace(/\*/g, '\\*')}\\}`,
       'g'
     );
     
     processed = processed.replace(regex, (match, content) => {
-      // clean up the content: remove \label, \tag, alignment markers, etc.
-      let cleanContent = content
-        .replace(/\\label\{[^}]*\}/g, '')  // remove labels
-        .replace(/\\tag\{[^}]*\}/g, '')    // remove custom tags
-        .replace(/&/g, ' ')                // remove alignment markers
-        .replace(/\\\\/g, '\\\\ ')         // preserve line breaks with space
+      // clean up the content: remove labels, tags, alignment markers
+      const cleanContent = content
+        .replace(/\\label\{[^}]*\}/g, '')
+        .replace(/\\tag\{[^}]*\}/g, '')
+        .replace(/&/g, ' ')
+        .replace(/\\\\/g, '\\\\ ')
         .trim();
       
       return `$$${cleanContent}$$`;
     });
   });
-
-  // remove problematic \usepackage declarations that aren't bundled
-  // packages like hyperref, graphicx work fine even though not all features are supported
-  const unsupportedPackages = [
-    'amsmath', 'amsthm', 'amssymb', 'amsfonts',  // ams math packages - cause bundle errors
-    'tikz', 'pgf', 'tikz-cd',                    // graphics packages - cause bundle errors
-    // NOTE: hyperref, graphicx, geometry, fancyhdr, etc. can stay - they don't cause errors
-    // latex.js just ignores unsupported commands from these packages
-  ];
-
-  unsupportedPackages.forEach(pkg => {
-    // remove \usepackage{pkg} or \usepackage[options]{pkg}
-    const regex = new RegExp(`\\\\usepackage(?:\\[[^\\]]*\\])?\\{${pkg}\\}`, 'g');
-    processed = processed.replace(regex, `% Package ${pkg} removed (not supported)`);
-  });
-
-  // also handle multiple packages in one \usepackage
-  processed = processed.replace(
-    /\\usepackage(?:\[[^\]]*\])?\{([^}]+)\}/g,
-    (match, packages) => {
-      const pkgList = packages.split(',').map((p: string) => p.trim());
-      const filtered = pkgList.filter((p: string) => !unsupportedPackages.includes(p));
-      
-      if (filtered.length === 0) {
-        return `% Packages removed (not bundled or supported)`;
-      } else if (filtered.length < pkgList.length) {
-        // some packages removed
-        return `\\usepackage{${filtered.join(',')}} % Some packages removed`;
-      }
-      // keep as-is if all packages are okay
-      return match;
-    }
-  );
 
   return processed;
 }
@@ -158,32 +121,28 @@ export const renderLatex: RendererFunction = (data: string): string => {
   }
 
   try {
-    // Pre-process LaTeX to handle unsupported features
+    // pre-process latex to convert unsupported environments to supported ones
     const processedLatex = preprocessLatex(data);
     
-    // Create HTML generator with hyphenation enabled
+    // create HTML generator exactly as latex.js playground does
     const generator = new HtmlGenerator({
       hyphenate: true,
     });
 
-    // Parse LaTeX and generate HTML
+    // parse latex and generate HTML document
     const parsed = parse(processedLatex, { generator });
     
-    // Get styles and scripts from the generator
-    const stylesAndScriptsFragment = parsed.stylesAndScripts();
-    const stylesContainer = document.createElement('div');
-    stylesContainer.appendChild(stylesAndScriptsFragment);
-    const styles = stylesContainer.innerHTML;
+    // get the full HTML document (exactly like playground)
+    const htmlDocument = parsed.htmlDocument();
     
-    // Get the body content as a DocumentFragment
-    const bodyFragment = parsed.domFragment();
-    const bodyContainer = document.createElement('div');
-    bodyContainer.appendChild(bodyFragment);
-    const bodyContent = bodyContainer.innerHTML;
+    // extract styles from <head>
+    const headHTML = htmlDocument.head.innerHTML;
     
-    // Combine styles and body content
-    // Keep structure minimal to preserve latex.js CSS selectors
-    return `${styles}${bodyContent}`;
+    // extract body content - keep it exactly as latex.js outputs it
+    const bodyHTML = htmlDocument.body.innerHTML;
+    
+    // return: styles + body (minimal, no wrappers)
+    return `${headHTML}${bodyHTML}`;
     
   } catch (error) {
     // Gracefully handle unsupported features or parse errors
