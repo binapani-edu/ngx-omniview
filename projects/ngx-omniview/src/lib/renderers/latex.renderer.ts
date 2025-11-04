@@ -3,6 +3,123 @@ import { parse, HtmlGenerator } from 'latex.js';
 import { RendererFunction } from './renderer.types';
 
 /**
+ * Pre-process LaTeX to convert unsupported environments to supported ones
+ * 
+ * Complete mapping based on LaTeX2e and AMSMath specifications:
+ * - INLINE MATH: \(...\), \begin{math}...\end{math} → $...$
+ * - DISPLAY MATH: \[...\], equation, align, gather, etc. → $$...$$
+ * - SPECIAL: array, cases, split, matrices → left as-is (used inside math mode)
+ * 
+ * @param latex - Raw LaTeX source
+ * @returns Processed LaTeX compatible with latex.js
+ */
+function preprocessLatex(latex: string): string {
+  let processed = latex;
+
+  // ========================================
+  // INLINE MATH CONVERSIONS → $...$
+  // ========================================
+  
+  // convert \(...\) to $...$
+  processed = processed.replace(
+    /\\\(([\s\S]*?)\\\)/g,
+    (match, content) => `$${content}$`
+  );
+
+  // convert \begin{math}...\end{math} to $...$
+  processed = processed.replace(
+    /\\begin\{math\}([\s\S]*?)\\end\{math\}/g,
+    (match, content) => `$${content.trim()}$`
+  );
+
+  // ========================================
+  // DISPLAY MATH conversions → $$...$$
+  // ========================================
+
+  // convert \[...\] to $$...$$
+  processed = processed.replace(
+    /\\\[([\s\S]*?)\\\]/g,
+    (match, content) => `$$${content.trim()}$$`
+  );
+
+  // list of display math environments to convert to $$...$$
+  const displayMathEnvironments = [
+    // Standard LaTeX
+    'displaymath',
+    
+    // numbered equations (AMSmath)
+    'equation', 'equation*',
+    'align', 'align*',
+    'alignat', 'alignat*',
+    'gather', 'gather*',
+    'multline', 'multline*',
+    'flalign', 'flalign*',
+    
+    // older LaTeX (obsolete but still used)
+    'eqnarray', 'eqnarray*',
+    
+    // IEEE (if encountered)
+    'IEEEeqnarray', 'IEEEeqnarray*'
+  ];
+
+  // convert each display math environment to $$...$$
+  displayMathEnvironments.forEach(env => {
+    // match \begin{env}...\end{env} with content in between (including newlines)
+    const regex = new RegExp(
+      `\\\\begin\\{${env.replace(/\*/g, '\\*')}\\}([\\s\\S]*?)\\\\end\\{${env.replace(/\*/g, '\\*')}\\}`,
+      'g'
+    );
+    
+    processed = processed.replace(regex, (match, content) => {
+      // clean up the content: remove \label, \tag, alignment markers, etc.
+      let cleanContent = content
+        .replace(/\\label\{[^}]*\}/g, '')  // remove labels
+        .replace(/\\tag\{[^}]*\}/g, '')    // remove custom tags
+        .replace(/&/g, ' ')                // remove alignment markers
+        .replace(/\\\\/g, '\\\\ ')         // preserve line breaks with space
+        .trim();
+      
+      return `$$${cleanContent}$$`;
+    });
+  });
+
+  // remove problematic \usepackage declarations that aren't bundled
+  // packages like hyperref, graphicx work fine even though not all features are supported
+  const unsupportedPackages = [
+    'amsmath', 'amsthm', 'amssymb', 'amsfonts',  // ams math packages - cause bundle errors
+    'tikz', 'pgf', 'tikz-cd',                    // graphics packages - cause bundle errors
+    // NOTE: hyperref, graphicx, geometry, fancyhdr, etc. can stay - they don't cause errors
+    // latex.js just ignores unsupported commands from these packages
+  ];
+
+  unsupportedPackages.forEach(pkg => {
+    // remove \usepackage{pkg} or \usepackage[options]{pkg}
+    const regex = new RegExp(`\\\\usepackage(?:\\[[^\\]]*\\])?\\{${pkg}\\}`, 'g');
+    processed = processed.replace(regex, `% Package ${pkg} removed (not supported)`);
+  });
+
+  // also handle multiple packages in one \usepackage
+  processed = processed.replace(
+    /\\usepackage(?:\[[^\]]*\])?\{([^}]+)\}/g,
+    (match, packages) => {
+      const pkgList = packages.split(',').map((p: string) => p.trim());
+      const filtered = pkgList.filter((p: string) => !unsupportedPackages.includes(p));
+      
+      if (filtered.length === 0) {
+        return `% Packages removed (not bundled or supported)`;
+      } else if (filtered.length < pkgList.length) {
+        // some packages removed
+        return `\\usepackage{${filtered.join(',')}} % Some packages removed`;
+      }
+      // keep as-is if all packages are okay
+      return match;
+    }
+  );
+
+  return processed;
+}
+
+/**
  * LaTeX Renderer
  * 
  * Renders LaTeX documents to HTML using latex.js library.
@@ -41,27 +158,32 @@ export const renderLatex: RendererFunction = (data: string): string => {
   }
 
   try {
+    // Pre-process LaTeX to handle unsupported features
+    const processedLatex = preprocessLatex(data);
+    
     // Create HTML generator with hyphenation enabled
     const generator = new HtmlGenerator({
       hyphenate: true,
     });
 
-    // Parse LaTeX and generate HTML document
-    const parsed = parse(data, { generator });
+    // Parse LaTeX and generate HTML
+    const parsed = parse(processedLatex, { generator });
     
-    // Get the full HTML document
-    const htmlDocument = parsed.htmlDocument();
+    // Get styles and scripts from the generator
+    const stylesAndScriptsFragment = parsed.stylesAndScripts();
+    const stylesContainer = document.createElement('div');
+    stylesContainer.appendChild(stylesAndScriptsFragment);
+    const styles = stylesContainer.innerHTML;
     
-    // Extract head content (styles and scripts)
-    const headContent = htmlDocument.head.innerHTML;
-    
-    // Extract body content (the actual rendered LaTeX)
-    const bodyContent = htmlDocument.body.innerHTML;
+    // Get the body content as a DocumentFragment
+    const bodyFragment = parsed.domFragment();
+    const bodyContainer = document.createElement('div');
+    bodyContainer.appendChild(bodyFragment);
+    const bodyContent = bodyContainer.innerHTML;
     
     // Combine styles and body content
-    // Wrap in a container div for easier styling
-    // Styles are included in the head content from htmlDocument
-    return `<div class="latex-output"><style>${extractStylesFromHead(headContent)}</style><div class="latex-content">${bodyContent}</div></div>`;
+    // Keep structure minimal to preserve latex.js CSS selectors
+    return `${styles}${bodyContent}`;
     
   } catch (error) {
     // Gracefully handle unsupported features or parse errors
@@ -82,23 +204,6 @@ export const renderLatex: RendererFunction = (data: string): string => {
     </div>`;
   }
 };
-
-/**
- * Extract CSS styles from head HTML content
- */
-function extractStylesFromHead(headHTML: string): string {
-  // Extract content from <style> tags and <link rel="stylesheet"> href URLs
-  // For now, we'll include the styles inline
-  // In a production app, you might want to load external stylesheets
-  const styleMatch = headHTML.match(/<style[^>]*>([\s\S]*?)<\/style>/gi);
-  if (styleMatch) {
-    return styleMatch.map(match => {
-      const contentMatch = match.match(/<style[^>]*>([\s\S]*?)<\/style>/i);
-      return contentMatch ? contentMatch[1] : '';
-    }).join('\n');
-  }
-  return '';
-}
 
 /**
  * Escape HTML special characters to prevent XSS
