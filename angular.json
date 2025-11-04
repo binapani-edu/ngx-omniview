@@ -65,7 +65,9 @@
             ],
             "styles": [
               "projects/demo/src/styles.css",
-              "node_modules/katex/dist/katex.min.css"
+              "node_modules/katex/dist/katex.min.css",
+              "node_modules/latex.js/dist/css/base.css",
+              "node_modules/latex.js/dist/css/article.css"
             ],
             "scripts": [
               "node_modules/katex/dist/katex.min.js",

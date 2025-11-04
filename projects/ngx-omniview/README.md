@@ -37,12 +37,43 @@ npm install mathjax-angular
 ```bash
 # For LaTeX support
 npm install latex.js
+
+# ⚠️ Important: Angular 17+ users need to configure esbuild
+# Add this to your angular.json under build options:
+#   "loader": { ".keep": "empty" }
+# See Setup Guide below for details
 ```
 
 ```bash
 # For all formats
 npm install ngx-markdown katex mathjax-angular latex.js
 ```
+
+### ⚠️ LaTeX Format Setup (Important!)
+
+If you're using the LaTeX format, you need to configure Angular's build system to handle latex.js correctly.
+
+**Add this to your `angular.json` (Angular 17+ with application builder):**
+
+```json
+{
+  "projects": {
+    "your-app": {
+      "architect": {
+        "build": {
+          "options": {
+            "loader": {
+              ".keep": "empty"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+This fixes a known issue with latex.js and modern bundlers. [More details here](https://github.com/michael-brade/LaTeX.js/issues/152).
 
 ## Usage
 

@@ -10,6 +10,16 @@
   word-wrap: break-word;
 }
 
+/* LaTeX format: Don't interfere with latex.js CSS Grid layout */
+.latex-container {
+  /* Minimal styling - let latex.js handle its own layout and CSS Grid */
+  /* Remove width/height constraints that might conflict */
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
 /* Preserve whitespace for text-based formats */
 .omniview-content pre.preserve-whitespace {
   white-space: pre-wrap;

@@ -129,20 +129,38 @@ export const renderLatex: RendererFunction = (data: string): string => {
       hyphenate: true,
     });
 
-    // parse latex and generate HTML document
+    // CRITICAL: Reset generator before each parse (exactly like playground)
+    // Without this, generator state accumulates across renders causing issues
+    generator.reset();
+    
+    // parse latex and generate HTML
     const parsed = parse(processedLatex, { generator });
     
-    // get the full HTML document (exactly like playground)
+    // Get the full HTML document (same as playground)
     const htmlDocument = parsed.htmlDocument();
     
-    // extract styles from <head>
+    // Extract head content - includes <link> tags for CSS and <style> tags
     const headHTML = htmlDocument.head.innerHTML;
     
-    // extract body content - keep it exactly as latex.js outputs it
-    const bodyHTML = htmlDocument.body.innerHTML;
+    // CRITICAL: Preserve body element structure with its classes
+    // latex.js CSS targets .body class and uses CSS Grid
+    // We need to preserve the body wrapper, not just innerHTML
+    const bodyElement = htmlDocument.body;
+    const bodyClasses = bodyElement.className;
+    const bodyHTML = bodyElement.innerHTML;
     
-    // return: styles + body (minimal, no wrappers)
-    return `${headHTML}${bodyHTML}`;
+    // Extract inline styles from head (style tags work in innerHTML)
+    // Note: <link> tags won't work in innerHTML - CSS files need to be loaded separately
+    const stylesHTML = convertLinksToInlineStyles(headHTML);
+    
+    // Wrap body content in a div with the same classes as the body element
+    // This preserves the CSS Grid structure and styling
+    const bodyWrapper = bodyClasses 
+      ? `<div class="${bodyClasses}">${bodyHTML}</div>`
+      : `<div class="body">${bodyHTML}</div>`;
+    
+    // Return: inline styles + body wrapper (preserves CSS structure)
+    return `${stylesHTML}${bodyWrapper}`;
     
   } catch (error) {
     // Gracefully handle unsupported features or parse errors
@@ -163,6 +181,28 @@ export const renderLatex: RendererFunction = (data: string): string => {
     </div>`;
   }
 };
+
+/**
+ * Convert <link> tags to inline <style> tags for innerHTML compatibility
+ * Also extracts existing <style> tags
+ * Note: <link> tags for external CSS won't work in innerHTML, so we need inline styles
+ */
+function convertLinksToInlineStyles(headHTML: string): string {
+  // Extract all <style> tags (these work fine in innerHTML)
+  const styleTags: string[] = [];
+  const styleRegex = /<style[^>]*>([\s\S]*?)<\/style>/gi;
+  let match;
+  while ((match = styleRegex.exec(headHTML)) !== null) {
+    styleTags.push(match[0]);
+  }
+  
+  // For <link> tags, we can't load external CSS in innerHTML
+  // The CSS files need to be included separately in Angular's build
+  // For now, just return the style tags we found
+  // TODO: Consider loading latex.js CSS files separately in angular.json styles
+  
+  return styleTags.join('\n');
+}
 
 /**
  * Escape HTML special characters to prevent XSS
