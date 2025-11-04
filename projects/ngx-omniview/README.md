@@ -16,6 +16,34 @@ Universal content renderer for Angular. Display raw text as HTML, Markdown, LaTe
 npm install ngx-omniview
 ```
 
+### Peer Dependencies
+
+This library uses peer dependencies to keep the bundle size small. Install the required peer dependencies based on the formats you plan to use:
+
+```bash
+# For Markdown support
+npm install ngx-markdown
+
+```bash
+# For KaTeX support (used by Markdown)
+npm install katex
+```
+
+```bash
+# For MathJax support
+npm install mathjax-angular
+```
+
+```bash
+# For LaTeX support
+npm install latex.js
+```
+
+```bash
+# For all formats
+npm install ngx-markdown katex mathjax-angular latex.js
+```
+
 ## Usage
 
 ### Basic Example
@@ -46,6 +74,26 @@ export class ExampleComponent {
 <omniview [data]="code" [format]="'code'"></omniview>
 ```
 
+### Format Examples
+
+#### LaTeX Format
+
+Full LaTeX document support powered by [latex.js](https://latex.js.org/):
+
+**Supported Features:**
+- ✅ Full document structure (`\documentclass`, `\begin{document}`, etc.)
+- ✅ Sections, lists, tables, and text formatting
+- ✅ Math equations (inline and display)
+- ✅ Common packages (`amsmath`, `amsthm`, `graphicx`, etc.)
+- ✅ Custom macros and theorems
+
+**Known Limitations:**
+- ❌ TikZ/PGF diagrams (requires native LaTeX compilation)
+- ❌ Complex packages that depend on native LaTeX features
+- ⚠️ Some advanced TeX constructs (LaTeX.js parses as context-free)
+
+For math-only content (no document structure), consider using `format="mathjax"` instead.
+
 ## API
 
 ### Inputs
@@ -73,12 +121,12 @@ type OmniviewFormat =
 | Format | Status |
 |--------|--------|
 | text | ✅ Implemented |
-| html | 🚧 In Progress |
-| markdown | 🚧 In Progress |
-| latex | 🚧 In Progress |
-| mathjax | 🚧 In Progress |
-| json | 🚧 In Progress |
-| code | 🚧 In Progress |
+| html | ✅ Implemented |
+| markdown | ✅ Implemented |
+| latex | ✅ Implemented |
+| mathjax | ✅ Implemented |
+| json | ✅ Implemented |
+| code | 🔜 Planned |
 
 ## Contributing
 
