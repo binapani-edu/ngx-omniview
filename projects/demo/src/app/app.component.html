@@ -86,6 +86,22 @@
     </section>
 
     <section class="demo-section">
+      <h2>LaTeX Format</h2>
+      <div class="viewer-row">
+        <div class="input-container">
+          <label class="input-label">Input string</label>
+          <pre class="viewer-container">{{ latexContent }}</pre>
+        </div>
+        <div class="output-container">
+          <label class="output-label">Output view</label>
+          <div class="viewer-container">
+            <omniview [data]="latexContent" [format]="'latex'"></omniview>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
       <h2>Try Yourself!</h2>
       <div class="try-yourself-container">
         <div class="try-yourself-controls">
@@ -97,6 +113,7 @@
               <option value="markdown">Markdown</option>
               <option value="json">JSON</option>
               <option value="mathjax">MathJax</option>
+              <option value="latex">LaTeX</option>
             </select>
           </div>
         </div>

@@ -104,4 +104,38 @@ export class AppComponent {
     '$x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}$'
   ].join('\n');
 
+  latexContent = [
+    '\\documentclass{article}',
+    '\\usepackage{amsmath}',
+    '',
+    '\\title{Sample LaTeX Document}',
+    '\\author{ngx-omniview Demo}',
+    '\\date{\\today}',
+    '',
+    '\\begin{document}',
+    '\\maketitle',
+    '',
+    '\\section{Introduction}',
+    'This is a sample LaTeX document rendered using \\texttt{latex.js}.',
+    '',
+    '\\section{Mathematical Content}',
+    'We can include inline math: $E = mc^2$ and display equations:',
+    '',
+    '\\begin{equation}',
+    '\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}',
+    '\\end{equation}',
+    '',
+    '\\section{Lists and Formatting}',
+    '\\begin{itemize}',
+    '  \\item First item with \\textbf{bold text}',
+    '  \\item Second item with \\emph{italic text}',
+    '  \\item Third item with \\texttt{monospace}',
+    '\\end{itemize}',
+    '',
+    '\\section{Conclusion}',
+    'This demonstrates that \\texttt{ngx-omniview} can render full LaTeX documents!',
+    '',
+    '\\end{document}'
+  ].join('\n');
+
 }
