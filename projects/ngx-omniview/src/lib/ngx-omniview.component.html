@@ -21,7 +21,12 @@
     [mathjax]="renderedContent"
   ></div>
 
-  <!-- All other formats: text, code, latex -->
+  <!-- LaTeX format: render as HTML (latex.js outputs HTML) -->
+  <div *ngSwitchCase="'latex'"
+    [innerHTML]="renderedContent"
+  ></div>
+
+  <!-- All other formats: text, code -->
   <pre *ngSwitchDefault class="preserve-whitespace">{{ renderedContent }}</pre>
 
 </div>

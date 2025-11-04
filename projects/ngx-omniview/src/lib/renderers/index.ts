@@ -12,4 +12,4 @@ export * from './html.renderer';
 export * from './markdown.renderer';
 export * from './json.renderer';
 export * from './mathjax.renderer';
-
+export * from './latex.renderer';
