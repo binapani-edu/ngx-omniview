@@ -1,7 +1,7 @@
-import { Component, Input, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Component, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
-import { OmniviewFormat, rendererRegistry } from './renderers';
+import { OmniviewFormat, rendererRegistry, registerLatexJsComponent } from './renderers';
 import { JsonViewerComponent } from './json-viewer/json-viewer.component';
 import { MathjaxModule } from 'mathjax-angular';
 
@@ -27,7 +27,7 @@ import { MathjaxModule } from 'mathjax-angular';
   styleUrl: './ngx-omniview.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class NgxOmniviewComponent {
+export class NgxOmniviewComponent implements OnInit {
   /**
    * The raw string content to be rendered
    */
@@ -60,5 +60,9 @@ export class NgxOmniviewComponent {
     // For all other formats, use the renderer registry
     const renderer = rendererRegistry[this.format];
     return renderer ? renderer(this.data) : this.data;
+  }
+
+  async ngOnInit() {
+    await registerLatexJsComponent();
   }
 }
