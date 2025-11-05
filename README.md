@@ -23,6 +23,8 @@ ng serve demo            # Run demo app
 | Command | Purpose |
 |---------|---------|
 | `ng build ngx-omniview` | Build the library |
+| `ng build ngx-omniview --watch` | Hot build on changes (to use during development) |
+| `ng build ngx-omniview --configuration production` | Build the library for production (final check before publish) |
 | `ng test ngx-omniview` | Run library tests |
 | `ng serve demo` | Run demo app at `http://localhost:4200` |
 

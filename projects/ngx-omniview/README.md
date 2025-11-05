@@ -16,6 +16,20 @@ Universal content renderer for Angular. Display raw text as HTML, Markdown, LaTe
 npm install ngx-omniview
 ```
 
+### Peer Dependencies
+
+To keep the bundle size minimal, `ngx-omniview` relies on several peer dependencies. 
+Install the required dependencies based on the formats you intend to use.
+If your project already includes any of them, you can skip installing those packages.
+
+```bash
+npm install katex@^0.16.25
+npm install mathjax-angular@>=3.0.0
+npm install ngx-markdown@>=17.0.0
+```
+
+**Note:** This library supports Angular versions 15 through 20.
+
 ## Usage
 
 ### Basic Example
@@ -73,11 +87,11 @@ type OmniviewFormat =
 | Format | Status |
 |--------|--------|
 | text | ✅ Implemented |
-| html | 🚧 In Progress |
-| markdown | 🚧 In Progress |
-| latex | 🚧 In Progress |
-| mathjax | 🚧 In Progress |
-| json | 🚧 In Progress |
+| html | ✅ Implemented |
+| markdown | ✅ Implemented |
+| latex | ✅ Implemented |
+| mathjax | ✅ Implemented |
+| json | ✅ Implemented |
 | code | 🚧 In Progress |
 
 ## Contributing

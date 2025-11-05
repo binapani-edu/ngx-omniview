@@ -1,6 +1,6 @@
 {
   "name": "ngx-omniview",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A universal content viewer for Angular that renders text, HTML, Markdown, LaTeX, MathJax, JSON, and more",
   "keywords": [
     "angular",
@@ -14,14 +14,44 @@
     "text",
     "render",
     "rendering",
-    "content-viewer"
+    "content-viewer",
+    "omniview",
+    "universal-viewer",
+    "angular-library"
   ],
-  "author": "",
+  "author": {
+    "name": "Atanu Sarkar",
+    "email": "atanu.sarkar@binapani.com",
+    "url": "https://github.com/mratanusarkar"
+  },
+  "contributors": [
+    {
+      "name": "Atanu Sarkar",
+      "email": "atanu.sarkar@binapani.com",
+      "url": "https://github.com/mratanusarkar"
+    },
+    {
+      "name": "Khushi Joshi",
+      "email": "khushi.joshi@binapani.com",
+      "url": "https://github.com/khushijoshy"
+    }
+  ],
+  "maintainers": [
+    {
+      "name": "Binapani LTD",
+      "email": "contact@binapani.com",
+      "url": "https://www.binapani.com/"
+    }
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/binapani-edu/ngx-omniview"
+    "url": "git+https://github.com/binapani-edu/ngx-omniview.git"
   },
+  "bugs": {
+    "url": "https://github.com/binapani-edu/ngx-omniview/issues"
+  },
+  "homepage": "https://github.com/binapani-edu/ngx-omniview#readme",
   "peerDependencies": {
     "@angular/common": ">=15.0.0 <21.0.0",
     "@angular/core": ">=15.0.0 <21.0.0",
@@ -29,14 +59,19 @@
     "mathjax-angular": ">=3.0.0",
     "ngx-markdown": ">=17.0.0"
   },
+  "peerDependenciesMeta": {
+    "katex": {
+      "optional": true
+    },
+    "mathjax-angular": {
+      "optional": true
+    },
+    "ngx-markdown": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "tslib": "^2.8.1"
   },
-  "sideEffects": false,
-  "overrides": {
-    "mathjax-angular": {
-      "@angular/common": "^20.3.9",
-      "@angular/core": "^20.3.9"
-    }
-  }
+  "sideEffects": false
 }
