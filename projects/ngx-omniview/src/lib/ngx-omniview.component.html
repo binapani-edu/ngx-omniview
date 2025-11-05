@@ -23,6 +23,7 @@
 
   <!-- LaTex format -->
   <latex-js *ngSwitchCase="'latex'"
+    #latexElement
     baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/" 
     [textContent]="renderedContent">
   </latex-js>

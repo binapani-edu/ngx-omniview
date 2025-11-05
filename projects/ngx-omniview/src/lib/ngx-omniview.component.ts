@@ -1,4 +1,4 @@
-import { Component, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { OmniviewFormat, rendererRegistry, registerLatexJsComponent } from './renderers';
@@ -65,4 +65,12 @@ export class NgxOmniviewComponent implements OnInit {
   async ngOnInit() {
     await registerLatexJsComponent();
   }
+
+  @ViewChild('latexElement') latexEl!: ElementRef;
+
+  ngAfterViewInit() {
+    const el = this.latexEl.nativeElement.shadowRoot || this.latexEl.nativeElement;
+    el.querySelector('.page')?.style.setProperty('--size', '1em');
+  }
+
 }
