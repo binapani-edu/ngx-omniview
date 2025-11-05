@@ -59,14 +59,13 @@
     "mathjax-angular": ">=3.0.0",
     "ngx-markdown": ">=17.0.0"
   },
+  "peerDependenciesMeta": {
+    "katex": { "optional": true },
+    "mathjax-angular": { "optional": true },
+    "ngx-markdown": { "optional": true }
+  },
   "dependencies": {
     "tslib": "^2.8.1"
   },
-  "sideEffects": false,
-  "overrides": {
-    "mathjax-angular": {
-      "@angular/common": "^20.3.9",
-      "@angular/core": "^20.3.9"
-    }
-  }
+  "sideEffects": false
 }
