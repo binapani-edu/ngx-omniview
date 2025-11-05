@@ -62,6 +62,15 @@ export class NgxOmniviewComponent implements OnInit {
     return renderer ? renderer(this.data) : this.data;
   }
 
+  /**
+   * For LaTeX, check if the rendered content is an error HTML
+   */
+  get isLatexError(): boolean {
+    if (this.format !== 'latex') return false;
+    const content = this.renderedContent;
+    return typeof content === 'string' && content.trim().startsWith('<div class="latex-error">');
+  }
+
   async ngOnInit() {
     await registerLatexJsComponent();
   }

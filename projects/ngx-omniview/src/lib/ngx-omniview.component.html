@@ -22,11 +22,21 @@
   ></div>
 
   <!-- LaTex format -->
-  <latex-js *ngSwitchCase="'latex'"
-    #latexElement
-    baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/" 
-    [textContent]="renderedContent">
-  </latex-js>
+  <div *ngSwitchCase="'latex'">
+    <!-- Show error HTML if validation failed -->
+    <div *ngIf="isLatexError; else latexRenderer"
+      [innerHTML]="renderedContent"
+    ></div>
+
+    <!-- Otherwise use latex-js component -->
+    <ng-template #latexRenderer>
+      <latex-js
+        #latexElement
+        baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/" 
+        [textContent]="renderedContent">
+      </latex-js>
+    </ng-template>
+  </div>
 
   <!-- All other formats: text, code, latex -->
   <pre *ngSwitchDefault class="preserve-whitespace">{{ renderedContent }}</pre>

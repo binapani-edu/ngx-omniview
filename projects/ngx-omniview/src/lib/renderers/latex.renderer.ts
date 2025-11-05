@@ -1,4 +1,5 @@
 import { RendererFunction } from './renderer.types';
+import { validateLatex } from './latexjs-renderer';
 
 /**
  * Pre-process LaTeX to convert unsupported environments to supported ones
@@ -65,12 +66,12 @@ function preprocessLatex(latex: string): string {
     );
     
     processed = processed.replace(regex, (match, content) => {
-      // clean up the content: remove labels, tags, alignment markers
+      // clean up the content
       const cleanContent = content
-        .replace(/\\label\{[^}]*\}/g, '')
-        .replace(/\\tag\{[^}]*\}/g, '')
-        .replace(/&/g, ' ')
-        .replace(/\\\\/g, '\\\\ ')
+        // .replace(/\\label\{[^}]*\}/g, '')
+        // .replace(/\\tag\{[^}]*\}/g, '')
+        // .replace(/&/g, ' ')
+        // .replace(/\\\\/g, '\\\\ ')
         .trim();
       
       return `$$${cleanContent}$$`;
@@ -78,6 +79,15 @@ function preprocessLatex(latex: string): string {
   });
 
   return processed;
+}
+
+/**
+ * Escape HTML special characters to prevent XSS
+ */
+function escapeHtml(text: string): string {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 /**
@@ -121,9 +131,42 @@ export const renderLatex: RendererFunction = (data: string): string => {
     // Pre-process LaTeX to convert unsupported environments to supported ones
     const processed = preprocessLatex(data.trim());
 
+    // Validate the processed LaTeX if latex.js module is available
+    const validationError = validateLatex(processed);
+    if (validationError) {
+      // Return error HTML if validation fails
+      return `<div class="latex-error">
+        <div class="latex-error-header">
+          <strong>LaTeX Rendering Error</strong>
+        </div>
+        <div class="latex-error-message">
+          <p>${escapeHtml(validationError)}</p>
+          <p><em>This may be due to unsupported LaTeX packages or features (e.g., TikZ, PGF).</em></p>
+        </div>
+        <details class="latex-error-details">
+          <summary>Show raw LaTeX source</summary>
+          <pre class="latex-error-source">${escapeHtml(data)}</pre>
+        </details>
+      </div>`;
+    }
+
     return processed;
-  } catch (err) {
-    console.error('LaTex render error:', err);
-    return 'Invalid LaTex input';
+  } catch (error) {
+    // Gracefully handle unsupported features or parse errors
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    
+    return `<div class="latex-error">
+      <div class="latex-error-header">
+        <strong>LaTeX Rendering Error</strong>
+      </div>
+      <div class="latex-error-message">
+        <p>${escapeHtml(errorMessage)}</p>
+        <p><em>This may be due to unsupported LaTeX packages or features (e.g., TikZ, PGF).</em></p>
+      </div>
+      <details class="latex-error-details">
+        <summary>Show raw LaTeX source</summary>
+        <pre class="latex-error-source">${escapeHtml(data)}</pre>
+      </details>
+    </div>`;
   }
 };

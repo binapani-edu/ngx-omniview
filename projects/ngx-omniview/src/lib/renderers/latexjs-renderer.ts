@@ -10,6 +10,7 @@ function injectKatexCss() {
   }
 }
 
+let latexJsModule: any = null;
 let latexJsInitPromise: Promise<void> | null = null;
 
 export function registerLatexJsComponent(): Promise<void> {
@@ -17,8 +18,8 @@ export function registerLatexJsComponent(): Promise<void> {
   latexJsInitPromise = (async () => {
     if (!customElements.get('latex-js')) {
       // @ts-ignore: dynamic CDN import, no types
-      const module = await import('https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs');
-      customElements.define('latex-js', module.LaTeXJSComponent);
+      latexJsModule = await import('https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs');
+      customElements.define('latex-js', latexJsModule.LaTeXJSComponent);
       console.info('[ngx-omniview] latex-js registered');
     }
     injectKatexCss();
@@ -26,3 +27,25 @@ export function registerLatexJsComponent(): Promise<void> {
   return latexJsInitPromise;
 }
 
+/**
+ * Validate LaTeX by attempting to parse it
+ * Returns null if valid, error message if invalid
+ */
+export function validateLatex(latex: string): string | null {
+  if (!latexJsModule) {
+    // Module not loaded yet!
+    // skip validation (will be validated by component)
+    return null;
+  }
+
+  try {
+    const { parse, HtmlGenerator } = latexJsModule;
+    const generator = new HtmlGenerator({ hyphenate: true });
+    generator.reset();
+    parse(latex, { generator });
+    return null;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return errorMessage;
+  }
+}
