@@ -1,4 +1,4 @@
-import { Component, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
 import { OmniviewFormat, rendererRegistry, registerLatexJsComponent } from './renderers';
@@ -27,39 +27,93 @@ import { MathjaxModule } from 'mathjax-angular';
   styleUrl: './ngx-omniview.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class NgxOmniviewComponent implements OnInit {
+export class NgxOmniviewComponent implements OnInit, OnDestroy {
+  /**
+   * The raw string content to be rendered (internal data storage)
+   * @private
+   */
+  private _data: string = '';
+
+  /**
+   * The format/type of the content (internal format storage)
+   * @default 'text'
+   */
+  private _format: OmniviewFormat = 'text';
+
+  /**
+   * Cached rendered content to avoid re-rendering on every change detection
+   * @private
+   */
+  private _cachedContent: string | any = '';
+
   /**
    * The raw string content to be rendered
+   * Using setter pattern for efficient change detection
    */
-  @Input() data: string = '';
+  @Input()
+  set data(value: string) {
+    if (this._data !== value) {
+      this._data = value;
+      this._invalidateCache();
+    }
+  }
+  get data(): string {
+    return this._data;
+  }
 
   /**
    * The format/type of the content
    * @default 'text'
    */
-  @Input() format: OmniviewFormat = 'text';
+  @Input()
+  set format(value: OmniviewFormat) {
+    if (this._format !== value) {
+      this._format = value;
+      this._invalidateCache();
+    }
+  }
+  get format(): OmniviewFormat {
+    return this._format;
+  }
 
   /**
-   * Get the rendered content based on the format
-   * 
-   * Uses the renderer registry to delegate to the appropriate renderer function.
-   * For special formats (json, markdown), additional processing is done in the template.
+   * Invalidate cache and trigger re-render
+   * @private
    */
-  get renderedContent(): string | any {
-    if (!this.data) return '';
+  private _invalidateCache(): void {
+    this._cachedContent = this._renderContent();
+  }
+
+  /**
+   * Render content based on format
+   * @private
+   */
+  private _renderContent(): string | any {
+    if (!this._data) {
+      return '';
+    }
 
     // For JSON, parse and return object (used by json-viewer component)
-    if (this.format === 'json') {
+    if (this._format === 'json') {
       try {
-        return JSON.parse(this.data);
+        return JSON.parse(this._data);
       } catch {
-        return { error: 'Invalid JSON', raw: this.data };
+        return { error: 'Invalid JSON', raw: this._data };
       }
     }
 
     // For all other formats, use the renderer registry
-    const renderer = rendererRegistry[this.format];
-    return renderer ? renderer(this.data) : this.data;
+    const renderer = rendererRegistry[this._format];
+    return renderer ? renderer(this._data) : this._data;
+  }
+
+  /**
+   * Get the rendered content
+   * 
+   * For performance optimization, returns cached content, only re-renders when inputs change
+   */
+  get renderedContent(): string | any {
+    return this._cachedContent;
   }
 
   /**
@@ -73,6 +127,12 @@ export class NgxOmniviewComponent implements OnInit {
 
   async ngOnInit() {
     await registerLatexJsComponent();
+  }
+
+  ngOnDestroy(): void {
+    // Clear cached content to free memory
+    this._cachedContent = '';
+    this._data = '';
   }
 
 }
