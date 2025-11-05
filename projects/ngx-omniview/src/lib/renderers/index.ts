@@ -13,4 +13,4 @@ export * from './markdown.renderer';
 export * from './json.renderer';
 export * from './mathjax.renderer';
 export * from './latex.renderer';
-export * from './latexjs-renderer';
+export * from './latexjs.renderer';

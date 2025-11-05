@@ -1,5 +1,5 @@
 import { RendererFunction } from './renderer.types';
-import { validateLatex } from './latexjs-renderer';
+import { validateLatex } from './latexjs.renderer';
 
 /**
  * Pre-process LaTeX to convert unsupported environments to supported ones
