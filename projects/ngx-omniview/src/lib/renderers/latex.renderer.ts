@@ -32,7 +32,7 @@ function preprocessLatex(latex: string): string {
   );
 
   // ========================================
-  // convert DISPLAY MATH to $$...$$
+  // convert display math to $$...$$
   // ========================================
 
   // convert \[...\] to $$...$$

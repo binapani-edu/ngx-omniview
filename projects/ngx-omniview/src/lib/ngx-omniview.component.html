@@ -23,19 +23,18 @@
 
   <!-- LaTex format -->
   <div *ngSwitchCase="'latex'">
-    <!-- Show error HTML if validation failed -->
-    <div *ngIf="isLatexError; else latexRenderer"
+    <!-- show error HTML if validation failed -->
+    <div *ngIf="isLatexError"
       [innerHTML]="renderedContent"
     ></div>
 
-    <!-- Otherwise use latex-js component -->
-    <ng-template #latexRenderer>
-      <latex-js
-        #latexElement
-        baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/" 
-        [textContent]="renderedContent">
-      </latex-js>
-    </ng-template>
+    <!-- otherwise use latex-js component -->
+    <latex-js
+      *ngIf="!isLatexError"
+      #latexElement
+      baseURL="https://cdn.jsdelivr.net/npm/latex.js/dist/" 
+      [textContent]="renderedContent">
+    </latex-js>
   </div>
 
   <!-- All other formats: text, code, latex -->
