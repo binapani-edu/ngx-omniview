@@ -1,8 +1,22 @@
+<div align="center">
+
 # ngx-omniview
 
-A universal content viewer for Angular that renders raw string inputs as Plain Text, HTML, Markdown, LaTeX, MathJax, JSON, and more... all from a single component.
+[![Angular](https://img.shields.io/badge/Angular-15--20-red.svg?logo=angular&logoColor=white)](https://angular.io)
+[![NPM version](https://img.shields.io/npm/v/ngx-omniview.svg?logo=npm&logoColor=white)](https://www.npmjs.com/package/ngx-omniview)
+[![License: MIT](https://img.shields.io/npm/l/ngx-omniview.svg?color=green&logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![Downloads](https://img.shields.io/npm/dt/ngx-omniview.svg?logo=npm&logoColor=white)](https://npmcharts.com/compare/ngx-omniview?minimal=true)
+<br>
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/binapani-edu/ngx-omniview)
+[![Website](https://img.shields.io/badge/Website-binapani.com-0078D4?logo=googlechrome&logoColor=white)](https://www.binapani.com)
+[![YouTube](https://img.shields.io/badge/YouTube-Binapani%20Edu-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/@binapani_edu)
 
-**Supports:** Angular 15-20 | **Status:** In Development
+[![NPM](https://nodei.co/npm/ngx-omniview.svg)](https://nodei.co/npm/ngx-omniview/)
+
+**A universal content viewer for Angular**
+Renders any raw string input as Plain Text, HTML, Markdown, LaTeX, MathJax, JSON, and more... all from a single component.
+
+</div>
 
 ## Usage
 
@@ -61,6 +75,24 @@ cd dist/ngx-omniview
 npm publish
 ```
 
+## Demo App
+
+The demo application is hosted on GitHub Pages and automatically updates whenever changes are pushed to the `main` branch.
+
+**Live Demo:** [View Demo](https://binapani-edu.github.io/ngx-omniview/)
+
+The demo app showcases all the features and format renderers available in `ngx-omniview`.
+
 ## License
 
 MIT
+
+---
+
+<div align="center">
+
+• [Report Bug](https://github.com/binapani-edu/ngx-omniview/issues) • [Request Feature](https://github.com/binapani-edu/ngx-omniview/issues) • [View on NPM](https://www.npmjs.com/package/ngx-omniview) •
+
+Made with ❤️ for Angular
+
+</div>

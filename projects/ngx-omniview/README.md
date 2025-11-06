@@ -1,6 +1,22 @@
+<div align="center">
+
 # ngx-omniview
 
-Universal content renderer for Angular. Display raw text as HTML, Markdown, LaTeX, MathJax, JSON, and more with a single component.
+[![Angular](https://img.shields.io/badge/Angular-15--20-red.svg?logo=angular&logoColor=white)](https://angular.io)
+[![NPM version](https://img.shields.io/npm/v/ngx-omniview.svg?logo=npm&logoColor=white)](https://www.npmjs.com/package/ngx-omniview)
+[![License: MIT](https://img.shields.io/npm/l/ngx-omniview.svg?color=green&logo=opensourceinitiative&logoColor=white)](LICENSE)
+[![Downloads](https://img.shields.io/npm/dt/ngx-omniview.svg?logo=npm&logoColor=white)](https://npmcharts.com/compare/ngx-omniview?minimal=true)
+<br>
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?logo=github&logoColor=white)](https://github.com/binapani-edu/ngx-omniview)
+[![Website](https://img.shields.io/badge/Website-binapani.com-0078D4?logo=googlechrome&logoColor=white)](https://www.binapani.com)
+[![YouTube](https://img.shields.io/badge/YouTube-Binapani%20Edu-FF0000?logo=youtube&logoColor=white)](https://www.youtube.com/@binapani_edu)
+
+[![NPM](https://nodei.co/npm/ngx-omniview.svg)](https://nodei.co/npm/ngx-omniview/)
+
+**A universal content viewer for Angular**
+Renders any raw string input as Plain Text, HTML, Markdown, LaTeX, MathJax, JSON, and more... all from a single component.
+
+</div>
 
 ## Features
 
@@ -18,17 +34,24 @@ npm install ngx-omniview
 
 ### Peer Dependencies
 
-To keep the bundle size minimal, `ngx-omniview` relies on several peer dependencies. 
-Install the required dependencies based on the formats you intend to use.
-If your project already includes any of them, you can skip installing those packages.
+To keep the bundle size minimal, `ngx-omniview` relies on several peer dependencies.
+Install only the dependencies needed for the formats you use.
+
+**Required:**
+- `@angular/core` and `@angular/common` >=15.0.0 <21.0.0 (Angular 15-20)
+
+**Optional (install only for the formats you use):**
+- `katex` >=0.16.0 <0.17.0 - for `latex` format
+- `mathjax-angular` >=2.0.0 <4.0.0 - for `mathjax` format
+- `ngx-markdown` >=15.0.0 <21.0.0 - for `markdown` format
+
+Formats like `text`, `html`, `json`, and `code` work without any optional peer dependencies.
 
 ```bash
-npm install katex@^0.16.25
-npm install mathjax-angular@>=3.0.0
-npm install ngx-markdown@>=17.0.0
+npm install katex@^0.16.25           # For LaTeX (>=0.16.0 <0.17.0)
+npm install mathjax-angular@>=3.0.0  # For MathJax (>=2.0.0 <4.0.0)
+npm install ngx-markdown@>=17.0.0    # For Markdown (>=15.0.0 <21.0.0)
 ```
-
-**Note:** This library supports Angular versions 15 through 20.
 
 ## Usage
 
@@ -100,4 +123,14 @@ Contributions welcome! See [GitHub repository](https://github.com/binapani-edu/n
 
 ## License
 
-MIT
+MIT © [Binapani LTD](https://www.binapani.com/)
+
+---
+
+<div align="center">
+
+• [Report Bug](https://github.com/binapani-edu/ngx-omniview/issues) • [Request Feature](https://github.com/binapani-edu/ngx-omniview/issues) • [View on NPM](https://www.npmjs.com/package/ngx-omniview) •
+
+Made with ❤️ for Angular
+
+</div>

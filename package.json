@@ -1,10 +1,11 @@
 {
   "name": "ngx-omniview",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:demo": "ng build demo --configuration production --base-href=/ngx-omniview/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
