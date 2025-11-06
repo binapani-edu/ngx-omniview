@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - 'docs/fancy-fancy'  # Test branch for deployment
     paths:
       - 'projects/demo/**'
       - 'projects/ngx-omniview/**'
