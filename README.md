@@ -61,6 +61,14 @@ cd dist/ngx-omniview
 npm publish
 ```
 
+## Demo App
+
+The demo application is hosted on GitHub Pages and automatically updates whenever changes are pushed to the `main` branch.
+
+**Live Demo:** [View Demo](https://binapani-edu.github.io/ngx-omniview/)
+
+The demo app showcases all the features and format renderers available in `ngx-omniview`.
+
 ## License
 
 MIT
