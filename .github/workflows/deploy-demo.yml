@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 'docs/fancy-fancy'  # Test branch for deployment
     paths:
       - 'projects/demo/**'
       - 'projects/ngx-omniview/**'
@@ -48,7 +47,7 @@ jobs:
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: './dist/demo/browser'
 
