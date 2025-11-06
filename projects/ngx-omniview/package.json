@@ -1,6 +1,6 @@
 {
   "name": "ngx-omniview",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A universal content viewer for Angular that renders text, HTML, Markdown, LaTeX, MathJax, JSON, and more",
   "keywords": [
     "angular",
@@ -55,9 +55,9 @@
   "peerDependencies": {
     "@angular/common": ">=15.0.0 <21.0.0",
     "@angular/core": ">=15.0.0 <21.0.0",
-    "katex": "^0.16.25",
-    "mathjax-angular": ">=3.0.0",
-    "ngx-markdown": ">=17.0.0"
+    "katex": ">=0.16.0 <0.17.0",
+    "mathjax-angular": ">=2.0.0 <4.0.0",
+    "ngx-markdown": ">=15.0.0 <21.0.0"
   },
   "peerDependenciesMeta": {
     "katex": {
