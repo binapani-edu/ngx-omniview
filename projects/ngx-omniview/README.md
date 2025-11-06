@@ -34,17 +34,24 @@ npm install ngx-omniview
 
 ### Peer Dependencies
 
-To keep the bundle size minimal, `ngx-omniview` relies on several peer dependencies. 
-Install the required dependencies based on the formats you intend to use.
-If your project already includes any of them, you can skip installing those packages.
+To keep the bundle size minimal, `ngx-omniview` relies on several peer dependencies.
+Install only the dependencies needed for the formats you use.
+
+**Required:**
+- `@angular/core` and `@angular/common` >=15.0.0 <21.0.0 (Angular 15-20)
+
+**Optional (install only for the formats you use):**
+- `katex` >=0.16.0 <0.17.0 - for `latex` format
+- `mathjax-angular` >=2.0.0 <4.0.0 - for `mathjax` format
+- `ngx-markdown` >=15.0.0 <21.0.0 - for `markdown` format
+
+Formats like `text`, `html`, `json`, and `code` work without any optional peer dependencies.
 
 ```bash
-npm install katex@^0.16.25
-npm install mathjax-angular@>=3.0.0
-npm install ngx-markdown@>=17.0.0
+npm install katex@^0.16.25           # For LaTeX (>=0.16.0 <0.17.0)
+npm install mathjax-angular@>=3.0.0  # For MathJax (>=2.0.0 <4.0.0)
+npm install ngx-markdown@>=17.0.0    # For Markdown (>=15.0.0 <21.0.0)
 ```
-
-**Note:** This library supports Angular versions 15 through 20.
 
 ## Usage
 
