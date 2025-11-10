@@ -1,9 +1,5 @@
-import { Component, Input, CUSTOM_ELEMENTS_SCHEMA, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MarkdownModule } from 'ngx-markdown';
-import { OmniviewFormat, rendererRegistry, registerLatexJsComponent } from './renderers';
-import { JsonViewerComponent } from './json-viewer/json-viewer.component';
-import { MathjaxModule } from 'mathjax-angular';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { OmniviewFormat, rendererRegistry } from './renderers';
 
 /**
  * OmniviewComponent - Universal content renderer
@@ -22,12 +18,10 @@ import { MathjaxModule } from 'mathjax-angular';
  */
 @Component({
   selector: 'omniview',
-  imports: [CommonModule, MarkdownModule, JsonViewerComponent, MathjaxModule],
   templateUrl: './ngx-omniview.component.html',
-  styleUrl: './ngx-omniview.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  styleUrls: ['./ngx-omniview.component.css']
 })
-export class NgxOmniviewComponent implements OnInit, OnDestroy {
+export class NgxOmniviewComponent implements OnDestroy {
   /**
    * The raw string content to be rendered (internal data storage)
    * @private
@@ -123,10 +117,6 @@ export class NgxOmniviewComponent implements OnInit, OnDestroy {
     if (this.format !== 'latex') return false;
     const content = this.renderedContent;
     return typeof content === 'string' && content.trim().startsWith('<div class="latex-error">');
-  }
-
-  async ngOnInit() {
-    await registerLatexJsComponent();
   }
 
   ngOnDestroy(): void {

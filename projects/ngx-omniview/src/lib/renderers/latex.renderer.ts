@@ -1,5 +1,41 @@
 import { RendererFunction } from './renderer.types';
-import { validateLatex } from './latexjs.renderer';
+/**
+ * Type aliases based on src/types/latex.js.d.ts
+ * Defined locally to avoid TypeScript trying to resolve npm package
+ * These provide type safety while using CDN imports
+ */
+interface LatexJsHtmlGenerator {
+  reset(): void;
+  htmlDocument(baseURL?: string): HTMLDocument;
+  domFragment(): DocumentFragment;
+  stylesAndScripts(baseURL?: string): DocumentFragment;
+  applyLengthsAndGeometryToDom(el: HTMLElement): void;
+  documentTitle(): string;
+}
+interface LatexJsParseOptions {
+  generator: LatexJsHtmlGenerator;
+}
+interface LatexJsHtmlGeneratorOptions {
+  documentClass?: string;
+  CustomMacros?: any;
+  hyphenate?: boolean;
+  languagePatterns?: any;
+  styles?: string[];
+}
+
+/**
+ * Type for the latex.js module loaded from CDN
+ * Contains the exports we need: parse, HtmlGenerator, and LaTeXJSComponent
+ * 
+ * Types are based on src/types/latex.js.d.ts (automatically included by tsconfig)
+ */
+interface LatexJsModule {
+  parse: (latex: string, options: LatexJsParseOptions) => LatexJsHtmlGenerator;
+  HtmlGenerator: new (options?: LatexJsHtmlGeneratorOptions) => LatexJsHtmlGenerator;
+  LaTeXJSComponent: CustomElementConstructor;
+}
+
+let latexJsModule: LatexJsModule | null = null;
 
 /**
  * Pre-process LaTeX to convert unsupported environments to supported ones
@@ -170,3 +206,26 @@ export const renderLatex: RendererFunction = (data: string): string => {
     </div>`;
   }
 };
+
+/**
+ * Validate LaTeX by attempting to parse it
+ * Returns null if valid, error message if invalid
+ */
+export function validateLatex(latex: string): string | null {
+  if (!latexJsModule) {
+    // Module not loaded yet!
+    // skip validation (will be validated by component)
+    return null;
+  }
+
+  try {
+    const { parse, HtmlGenerator } = latexJsModule;
+    const generator = new HtmlGenerator({ hyphenate: true });
+    generator.reset();
+    parse(latex, { generator });
+    return null;
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return errorMessage;
+  }
+}

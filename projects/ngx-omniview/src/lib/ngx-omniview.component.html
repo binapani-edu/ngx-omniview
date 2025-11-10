@@ -1,28 +1,28 @@
-<div class="omniview-content" [ngSwitch]="format">
+<div class="omniview-content">
 
   <!-- HTML format: render as HTML -->
-  <div *ngSwitchCase="'html'"
+  <div *ngIf="format === 'html'"
     [innerHTML]="renderedContent"
   ></div>
 
   <!-- Markdown format: use ngx-markdown for rendering -->
-  <markdown *ngSwitchCase="'markdown'"
+  <markdown *ngIf="format === 'markdown'"
     katex
     [data]="renderedContent"
   ></markdown>
 
   <!-- JSON format: use interactive JSON viewer -->
-  <json-viewer *ngSwitchCase="'json'"
+  <json-viewer *ngIf="format === 'json'"
     [data]="renderedContent"
   ></json-viewer>
 
   <!-- MathJax format -->  
-  <div *ngSwitchCase="'mathjax'" 
-    [mathjax]="renderedContent"
-  ></div>
+  <mathjax *ngIf="format === 'mathjax'">
+    {{ renderedContent }}
+  </mathjax>
 
   <!-- LaTex format -->
-  <div *ngSwitchCase="'latex'">
+  <div *ngIf="format === 'latex'">
     <!-- show error HTML if validation failed -->
     <div *ngIf="isLatexError"
       [innerHTML]="renderedContent"
@@ -38,6 +38,7 @@
   </div>
 
   <!-- All other formats: text, code, latex -->
-  <pre *ngSwitchDefault class="preserve-whitespace">{{ renderedContent }}</pre>
+  <pre *ngIf="format !== 'html' && format !== 'markdown' && format !== 'json' && format !== 'mathjax' && format !== 'latex'"
+    class="preserve-whitespace">{{ renderedContent }}</pre>  
 
 </div>

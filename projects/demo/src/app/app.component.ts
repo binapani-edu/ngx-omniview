@@ -1,14 +1,10 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { NgxOmniviewComponent, OmniviewFormat } from 'ngx-omniview';
-import { MarkdownModule } from 'ngx-markdown';
-import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { OmniviewFormat } from 'ngx-omniview';
 
 @Component({
   selector: 'app-root',
-  imports: [NgxOmniviewComponent, MarkdownModule, FormsModule],
   templateUrl: './app.component.html',
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   title = 'ngx-omniview demo';

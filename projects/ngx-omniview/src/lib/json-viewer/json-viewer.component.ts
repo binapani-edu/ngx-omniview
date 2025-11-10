@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'json-viewer',
-  imports: [CommonModule],
   templateUrl: './json-viewer.component.html',
-  styleUrl: './json-viewer.component.css'
+  styleUrls: ['./json-viewer.component.css']
 })
 export class JsonViewerComponent implements OnInit {
   @Input() data: any = {};

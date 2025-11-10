@@ -3,6 +3,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -11,19 +12,21 @@
     "noFallthroughCasesInSwitch": true,
     "paths": {
       "ngx-omniview": [
-        "./dist/ngx-omniview"
+        "dist/ngx-omniview"
       ]
     },
     "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
-    "module": "ES2022"
+    "target": "ES2020",
+    "module": "ES2020",
+    "lib": ["ES2020", "DOM"]
   },
   "angularCompilerOptions": {
+    "compilationMode": "partial",
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,

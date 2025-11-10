@@ -48,11 +48,11 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/demo",
             "index": "projects/demo/src/index.html",
-            "browser": "projects/demo/src/main.ts",
+            "main": "projects/demo/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -60,7 +60,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/demo/public"
+                "input": "projects/demo/public",
+                "output": "."
               }
             ],
             "styles": [
@@ -100,10 +101,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "demo:build:production"
+              "browserTarget": "demo:build:production"
             },
             "development": {
-              "buildTarget": "demo:build:development"
+              "browserTarget": "demo:build:development"
             }
           },
           "defaultConfiguration": "development"
