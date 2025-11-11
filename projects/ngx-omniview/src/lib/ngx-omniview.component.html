@@ -17,7 +17,9 @@
   ></json-viewer>
 
   <!-- MathJax format -->  
-  <div [mathjax]="renderedContent" *ngSwitchCase="'mathjax'"></div>
+  <div *ngSwitchCase="'mathjax'" 
+    [mathjax]="renderedContent"
+  ></div>
 
   <!-- LaTex format -->
   <div *ngSwitchCase="'latex'">
@@ -36,6 +38,6 @@
   </div>
 
   <!-- All other formats: text, code, latex -->
-  <pre *ngSwitchDefault class="preserve-whitespace">{{ renderedContent }}</pre>  
+  <pre *ngSwitchDefault class="preserve-whitespace">{{ renderedContent }}</pre>
 
 </div>
