@@ -4,7 +4,12 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/app",
-    "types": []
+    "types": [],
+    /* For Angular Workspace library discovery in "demo" project. Run "ng build ngx-omniview" to make the library
+     discoverable in the current project. */
+    "paths": {
+      "ngx-omniview": ["projects/ngx-omniview/src/public-api.ts"]
+    }
   },
   "files": [
     "src/main.ts"
